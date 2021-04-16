@@ -2,6 +2,7 @@
 import cv2, time
 from datetime import datetime
 import pandas as pd
+from Face_recognition import detect
 
 # create video capture object
 video = cv2.VideoCapture(0,cv2.CAP_DSHOW) #pass already captured file (--> add path) or using webcam (0-n, depending on how many cameras are available in device)
@@ -62,7 +63,6 @@ while True:
         obj = frame[y:y+height, x:x+width].copy()
         object_frame.append(obj)
 
-
     # record status after this frame
     status_list.append(status)
 
@@ -76,16 +76,13 @@ while True:
     # show video in window
     cv2.imshow("Capturing", frame)
 
-    # if object_frame:
-    #     displayed_objs = []
-    #     for i, obj in enumerate(object_frame):
-    #         cv2.imshow(f"Object {i} Recognized", obj)
-    #         displayed_objs.append(f"Object {i} Recognized")
-    # elif status == 1:
-    #     for obj in displayed_objs:
-    #         cv2.destroy(obj)
-            
-
+    # pass detected object frames to face_recognition.detect()
+    for obj in object_frame:
+        grey = cv2.cvtColor(obj, cv2.COLOR_BGR2GRAY)
+        # apply .detect() to frame and save output in canvas-variable
+        canvas = detect(grey, obj)
+        #display canvas
+        cv2.imshow('Face detected', canvas)
 
     # # show delta_frame
     # cv2.imshow("Difference", delta_frame)
