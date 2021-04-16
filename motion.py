@@ -47,6 +47,7 @@ while True:
     (cnts, _) = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) #--> returns a tuple
 
     # iterate over all saved contours and keep only contours with a size larger than a certain number of pixels
+    object_frame=[]
     for contour in cnts:
         if cv2.contourArea(contour) < 10000:
             continue
@@ -56,6 +57,11 @@ while True:
         (x, y, width, height) = cv2.boundingRect(contour)
         # create rectagle object with coordinates specified in frame-object --> based on contours extracted from thresh_frame-object
         cv2.rectangle(frame,(x, y), (x+width, y+height), (0,255,43), 1)
+
+        # get only part of frame capturing object
+        obj = frame[y:y+height, x:x+width].copy()
+        object_frame.append(obj)
+
 
     # record status after this frame
     status_list.append(status)
@@ -69,6 +75,17 @@ while True:
 
     # show video in window
     cv2.imshow("Capturing", frame)
+
+    # if object_frame:
+    #     displayed_objs = []
+    #     for i, obj in enumerate(object_frame):
+    #         cv2.imshow(f"Object {i} Recognized", obj)
+    #         displayed_objs.append(f"Object {i} Recognized")
+    # elif status == 1:
+    #     for obj in displayed_objs:
+    #         cv2.destroy(obj)
+            
+
 
     # # show delta_frame
     # cv2.imshow("Difference", delta_frame)
