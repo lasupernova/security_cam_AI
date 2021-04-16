@@ -55,7 +55,7 @@ while True:
         # save coordinates of contours with size larger than defined above
         (x, y, width, height) = cv2.boundingRect(contour)
         # create rectagle object with coordinates specified in frame-object --> based on contours extracted from thresh_frame-object
-        cv2.rectangle(frame,(x, y), (x+width, y+height), (0,0,255), 3)
+        cv2.rectangle(frame,(x, y), (x+width, y+height), (0,255,43), 1)
 
     # record status after this frame
     status_list.append(status)
@@ -70,11 +70,11 @@ while True:
     # show video in window
     cv2.imshow("Capturing", frame)
 
-    # show delta_frame
-    cv2.imshow("Difference", delta_frame)
+    # # show delta_frame
+    # cv2.imshow("Difference", delta_frame)
 
-    # show video with differences over the threshold
-    cv2.imshow("Threshhold", thresh_frame)
+    # # show video with differences over the threshold
+    # cv2.imshow("Threshhold", thresh_frame)
 
     # wait for input to close the window; if key is pressed on keyboard, the symbol of that key is stqored in key (otherwise it will wait for the defined time)
     key=cv2.waitKey(10)
