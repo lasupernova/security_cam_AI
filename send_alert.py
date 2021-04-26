@@ -13,11 +13,11 @@ import os
 # get email password from .env-file
 password = os.environ.get('PASSWORD')
 
-subject = "OMG, la camara captura a alguien entrando a tu casa!!!!!"
+subject = ">>>OMG, la camara captura a alguien entrando a tu casa!!!!!"
 body = "Aqui esta la foto del ladron..."
-sender_email = "ladron.detection@gmail.com"
+sender_email = os.environ.get("SENDER")
 # receiver_email = "karina@mosicom.de"
-receiver_email = "gabrilasuno@gmail.com"
+receiver_email = os.environ.get("RECIPIENT")
 
 
 # Create a multipart message and set headers
@@ -30,8 +30,8 @@ message["Subject"] = subject
 # # Add body to email
 # message.attach(MIMEText(body, "plain"))
 
-filename = f"media{os.separator}test"  # In same directory as script
-img_data = open(ImgFileName, 'rb').read()
+filename = f"media{os.sep}test.jpg"  # In same directory as script
+img_data = open(filename, 'rb').read()
 
 
 text = "This is a test!"
