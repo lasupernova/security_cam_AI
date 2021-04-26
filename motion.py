@@ -3,6 +3,9 @@ import cv2, time
 from datetime import datetime
 import pandas as pd
 from Face_recognition import detect
+import os
+from send_alert import send_email
+from PIL import Image as im
 
 # create video capture object
 video = cv2.VideoCapture(0,cv2.CAP_DSHOW) #pass already captured file (--> add path) or using webcam (0-n, depending on how many cameras are available in device)
@@ -14,6 +17,7 @@ status_change_time =[] # initiate list for status-change time
 df = pd.DataFrame(columns=['Start', 'End', 'Duration']) #initiate dataframe to record entry and exit times and duration
 
 # initiate pandas dataframe
+start = 0
 
 while True:
     # check = reads first image in video --> used to check if video is running (returns True or False)
@@ -81,9 +85,15 @@ while True:
         grey = cv2.cvtColor(obj, cv2.COLOR_BGR2GRAY)
         # apply .detect() to frame and save output in canvas-variable
         canvas = detect(grey, obj)
-        if len(canvas) > 0:
+        if len(canvas) > 0 and ((start==0) or (time.time() - start > 30)): 
             #display canvas
             cv2.imshow('Face detected', canvas)
+            cv2.imwrite(f'media{os.sep}ladron.jpg', canvas)
+            # image = cv2.imread(f'media{os.sep}test.jpg')  #cobvert array to image for send_email functions to work with
+            send_email(f'media{os.sep}ladron.jpg')
+            start = time.time()
+        elif len(canvas) > 0 and (time.time() - start < 30):
+            continue
         else:
             cv2.destroyWindow('Face detected')
 
