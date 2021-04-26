@@ -81,8 +81,11 @@ while True:
         grey = cv2.cvtColor(obj, cv2.COLOR_BGR2GRAY)
         # apply .detect() to frame and save output in canvas-variable
         canvas = detect(grey, obj)
-        #display canvas
-        cv2.imshow('Face detected', canvas)
+        if len(canvas) > 0:
+            #display canvas
+            cv2.imshow('Face detected', canvas)
+        else:
+            cv2.destroyWindow('Face detected')
 
     # # show delta_frame
     # cv2.imshow("Difference", delta_frame)
