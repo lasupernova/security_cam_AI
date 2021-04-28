@@ -33,11 +33,12 @@ def detect(grey, frame):
         for (ex,ey,ew,eh) in eyes:
             cv2.rectangle(roi_clr, (ex,ey), (ex+ew, ey+eh), (0,255,0), 1)
 
-    if len(faces) > 0:  #rturn frame only if at least 1 face was detected
-        print(f"FACES: ", faces)
-        return frame #includes drawn rectangles (also of roi_clr as that is a part of frame)
-    else:
-        return []
+        if len(eyes) > 0:  #rturn frame only if at least 1 face was detected
+            print(f"FACES: ", faces)
+            return frame #includes drawn rectangles (also of roi_clr as that is a part of frame)
+        else:
+            return []
+    return []
 
 
 if __name__ == '__main__':

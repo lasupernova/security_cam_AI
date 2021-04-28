@@ -74,7 +74,7 @@ while True:
     status_list = status_list[-2:]
 
     # if current status is different from previous status, record the time
-    if len(status_list) >1 and status_list[-1] != status_list[-2]:
+    if len(status_list) > 1 and status_list[-1] != status_list[-2]:
         status_change_time.append(datetime.now())
 
     # show video in window
