@@ -12,7 +12,7 @@ def pretty_print_timedelta(delta):
         duration (str)
     """
     days = delta.days
-    hh, remainder = divmod(td.seconds, 3600)
+    hh, remainder = divmod(delta.seconds, 3600)
     mm, ss = divmod(remainder, 60)
 
     if days == 0:
