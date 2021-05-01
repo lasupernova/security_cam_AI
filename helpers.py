@@ -12,9 +12,8 @@ def pretty_print_timedelta(delta):
         duration (str)
     """
     days = delta.days
-    hh = delta.hours
-    mm = delta.minutes
-    ss = delta.seconds
+    hh, remainder = divmod(td.seconds, 3600)
+    mm, ss = divmod(remainder, 60)
 
     if days == 0:
         return f"{hh}h:{mm}m:{ss}s"
