@@ -32,13 +32,14 @@ hover = HoverTool(
         <div>
             <div>
                 <img
-                    src="@Image" height="42" alt="@Image" width="42"
-                    style="float: left; margin: 0px 15px 15px 0px;"
-                    border="2"
+                    src="@Image" height="100" alt="@Image" width="75"
+                    style="display:block; margin-left: auto; margin-right: auto; margin: 0px 15px 15px 0px;"
                 ></img>
             </div>
             <div>
-                <span style="font-size: 17px; font-weight: bold;">Start: @Start_string</span>
+                <p style="font-size: 10px;">Start: @Start_string</p>
+                <p style="font-size: 10px;">End: @End_string</p>
+                <p style="font-size: 10px;">Duration: @Duration_string</p>
             </div>
         </div>
         """
