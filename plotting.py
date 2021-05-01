@@ -8,7 +8,8 @@ from bokeh.models import HoverTool, ColumnDataSource
 # add string-version of datetimes
 df["Start_string"] = df['Start'].dt.strftime("%Y-%m-%d %H:%M:%S")
 df["End_string"] = df['End'].dt.strftime("%Y-%m-%d %H:%M:%S")
-df['Duration_string'] = str(df['Duration'])
+df['Duration_string'] = df['Duration']
+df['Image'] = df['Image']
 
 # initiate ColumnDataSource object to easily pass data from source (here: df) to bokeh
 cds = ColumnDataSource(df)
@@ -20,8 +21,8 @@ f = figure(x_axis_type="datetime", height=100, width=500, sizing_mode="stretch_b
 f.yaxis.minor_tick_line_color=None
 f.yaxis.ticker.desired_num_ticks = 1
 
-# create hover object; NOTE: hovertool ois not able to retrieve datetime objects --> convert to string before
-hover = HoverTool(tooltips=[("Start","@Start_string"),("End", "@End_string")])
+# create hover object; NOTE: hovertool is not able to retrieve datetime objects --> convert to string before
+hover = HoverTool(tooltips=[("Start","@Start_string"),("End", "@End_string"),("Duration", "@Duration_string"),("Image", "@Image")])
 # add to figure object
 f.add_tools(hover)
 

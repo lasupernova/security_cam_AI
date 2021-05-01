@@ -6,15 +6,17 @@ from Face_recognition import detect
 import os
 from send_alert import send_email
 from PIL import Image as im
+from helpers import pretty_print_timedelta
 
 # create video capture object
 video = cv2.VideoCapture(0,cv2.CAP_DSHOW) #pass already captured file (--> add path) or using webcam (0-n, depending on how many cameras are available in device)
 
 # initiate necessary objects
 first_frame = None 
-status_list = [] # initiate list to record statuses
-status_change_time =[] # initiate list for status-change time
-df = pd.DataFrame(columns=['Start', 'End', 'Duration']) #initiate dataframe to record entry and exit times and duration
+status_list = []  # initiate list to record statuses
+status_change_time =[]  # initiate list for status-change time
+captured_images = []  # inititate list to save paths to captured images in
+df = pd.DataFrame(columns=['Start', 'End', 'Duration', 'Image']) #initiate dataframe to record entry and exit times and duration
 
 # initiate pandas dataframe
 start = 0
@@ -76,6 +78,8 @@ while True:
     # if current status is different from previous status, record the time
     if len(status_list) > 1 and status_list[-1] != status_list[-2]:
         status_change_time.append(datetime.now())
+        if status_list[-1] == 1:  #if movement was detected --> add image for section
+            pass  #add image to list here
 
     # show video in window
     cv2.imshow("Capturing", frame)
@@ -115,9 +119,13 @@ while True:
 
 # add status change values to df
 for i in range(0, len(status_change_time), 2):
-    df = df.append({"Start":status_change_time[i], "End":status_change_time[i+1], "Duration":status_change_time[i+1]-status_change_time[i]},
+    duration = pretty_print_timedelta(status_change_time[i+1]-status_change_time[i])
+    df = df.append({"Start":status_change_time[i], "End":status_change_time[i+1], 
+                    "Duration":duration, 
+                    "Image":'Test'},
                     ignore_index=True)
-
+print(status_change_time[i+1]-status_change_time[i])
+print(type(status_change_time[i+1]-status_change_time[i]))
 # save df to .csv
 df.to_csv("security_cam.csv")
 
