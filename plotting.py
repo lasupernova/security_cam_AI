@@ -21,8 +21,29 @@ f = figure(x_axis_type="datetime", height=100, width=500, sizing_mode="stretch_b
 f.yaxis.minor_tick_line_color=None
 f.yaxis.ticker.desired_num_ticks = 1
 
-# create hover object; NOTE: hovertool is not able to retrieve datetime objects --> convert to string before
-hover = HoverTool(tooltips=[("Start","@Start_string"),("End", "@End_string"),("Duration", "@Duration_string"),("Image", "@Image")])
+# # create hover object; NOTE: hovertool is not able to retrieve datetime objects --> convert to string before
+# hover = HoverTool(tooltips=[("Start","@Start_string"),
+#                             ("End", "@End_string"),
+#                             ("Duration", "@Duration_string"),
+#                             ("Image", "<div> Hello </div>")])
+
+hover = HoverTool(
+        tooltips="""
+        <div>
+            <div>
+                <img
+                    src="@Image" height="42" alt="@Image" width="42"
+                    style="float: left; margin: 0px 15px 15px 0px;"
+                    border="2"
+                ></img>
+            </div>
+            <div>
+                <span style="font-size: 17px; font-weight: bold;">Start: @Start_string</span>
+            </div>
+        </div>
+        """
+    )
+
 # add to figure object
 f.add_tools(hover)
 

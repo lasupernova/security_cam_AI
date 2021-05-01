@@ -122,7 +122,7 @@ for i in range(0, len(status_change_time), 2):
     duration = pretty_print_timedelta(status_change_time[i+1]-status_change_time[i])
     df = df.append({"Start":status_change_time[i], "End":status_change_time[i+1], 
                     "Duration":duration, 
-                    "Image":'Test'},
+                    "Image":f'media{os.sep}test.jpg'},
                     ignore_index=True)
 print(status_change_time[i+1]-status_change_time[i])
 print(type(status_change_time[i+1]-status_change_time[i]))
