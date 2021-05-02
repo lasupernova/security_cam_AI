@@ -77,9 +77,11 @@ while True:
 
     # if current status is different from previous status, record the time
     if len(status_list) > 1 and status_list[-1] != status_list[-2]:
-        status_change_time.append(datetime.now())
+        current_time = datetime.now()
+        status_change_time.append(current_time)
         if status_list[-1] == 1:  #if movement was detected --> add image for section
-            pass  #add image to list here
+            time_str = current_time.strftime("%Y%m%d_%Hh%Mm%Ss")
+            cv2.imwrite(f'media{os.sep}motion{os.sep}{time_str}.jpg', frame)
 
     # show video in window
     cv2.imshow("Capturing", frame)
@@ -89,7 +91,7 @@ while True:
         grey = cv2.cvtColor(obj, cv2.COLOR_BGR2GRAY)
         # apply .detect() to frame and save output in canvas-variable
         canvas = detect(grey, obj)
-        if len(canvas) > 0 and ((start==0) or (time.time() - start > 30)): 
+        if len(canvas) > 0 and ((start==0) or (time.time() - start > 10)): 
             #display canvas
             cv2.imshow('Face detected', canvas)
             cv2.imwrite(f'media{os.sep}ladron.jpg', canvas)
@@ -122,7 +124,7 @@ for i in range(0, len(status_change_time), 2):
     duration = pretty_print_timedelta(status_change_time[i+1]-status_change_time[i])
     df = df.append({"Start":status_change_time[i], "End":status_change_time[i+1], 
                     "Duration":duration, 
-                    "Image":f'media{os.sep}test.jpg'},
+                    "Image":f'media{os.sep}motion{os.sep}{status_change_time[i].strftime("%Y%m%d_%Hh%Mm%Ss")}.jpg'},
                     ignore_index=True)
 print(status_change_time[i+1]-status_change_time[i])
 print(type(status_change_time[i+1]-status_change_time[i]))
