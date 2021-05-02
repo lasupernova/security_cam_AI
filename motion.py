@@ -6,7 +6,7 @@ from Face_recognition import detect
 import os
 from send_alert import send_email
 from PIL import Image as im
-from helpers import pretty_print_timedelta
+from helpers import pretty_print_timedelta, detect_blurry_img
 
 # create video capture object
 video = cv2.VideoCapture(0,cv2.CAP_DSHOW) #pass already captured file (--> add path) or using webcam (0-n, depending on how many cameras are available in device)
@@ -79,9 +79,14 @@ while True:
     if len(status_list) > 1 and status_list[-1] != status_list[-2]:
         current_time = datetime.now()
         status_change_time.append(current_time)
-        if status_list[-1] == 1:  #if movement was detected --> add image for section
+    if status_list[-1] == 1:  #if movement was detected --> add image for section
+        blur = detect_blurry_img(frame)
+        if blur == 0:
             time_str = current_time.strftime("%Y%m%d_%Hh%Mm%Ss")
-            cv2.imwrite(f'media{os.sep}motion{os.sep}{time_str}.jpg', frame)
+            img_path = f'media{os.sep}motion{os.sep}{time_str}.jpg'
+            cv2.imwrite(img_path, frame)
+        else:
+            img_path = None
 
     # show video in window
     cv2.imshow("Capturing", frame)
@@ -122,9 +127,10 @@ while True:
 # add status change values to df
 for i in range(0, len(status_change_time), 2):
     duration = pretty_print_timedelta(status_change_time[i+1]-status_change_time[i])
+    image = f'media{os.sep}motion{os.sep}{status_change_time[i].strftime("%Y%m%d_%Hh%Mm%Ss")}.jpg' if img_path != None else None
     df = df.append({"Start":status_change_time[i], "End":status_change_time[i+1], 
                     "Duration":duration, 
-                    "Image":f'media{os.sep}motion{os.sep}{status_change_time[i].strftime("%Y%m%d_%Hh%Mm%Ss")}.jpg'},
+                    "Image": image},
                     ignore_index=True)
 print(status_change_time[i+1]-status_change_time[i])
 print(type(status_change_time[i+1]-status_change_time[i]))
