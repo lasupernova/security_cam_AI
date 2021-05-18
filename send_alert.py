@@ -19,9 +19,7 @@ def send_email(image_path):
     password = os.environ.get('PASSWORD')
 
     subject = "FOTO: OMG, la camara captura a alguien entrando a tu casa!!!!!"
-    body = "Aqui esta la foto del ladron..."
     sender_email = os.environ.get("SENDER")
-    # receiver_email = "karina@mosicom.de"
     receiver_email = os.environ.get("RECIPIENT")
 
 

@@ -9,7 +9,7 @@ from PIL import Image as im
 from helpers import pretty_print_timedelta, detect_blurry_img
 
 # create video capture object
-video = cv2.VideoCapture(0,cv2.CAP_DSHOW) #pass already captured file (--> add path) or using webcam (0-n, depending on how many cameras are available in device)
+video = cv2.VideoCapture(0, cv2.CAP_DSHOW) #pass already captured file (--> add path) or using webcam (0-n, depending on how many cameras are available in device)
 
 # initiate necessary objects
 first_frame = None 
@@ -108,14 +108,14 @@ while True:
         else:
             cv2.destroyWindow('Face detected')
 
-    # # show delta_frame
+    # # show delta_frame -- uncomment for troubleshooting
     # cv2.imshow("Difference", delta_frame)
 
-    # # show video with differences over the threshold
+    # # show video with differences over the threshold -- uncomment for troubleshooting
     # cv2.imshow("Threshhold", thresh_frame)
 
-    # wait for input to close the window; if key is pressed on keyboard, the symbol of that key is stqored in key (otherwise it will wait for the defined time)
-    key=cv2.waitKey(10)
+    # wait for input to close the window; if key is pressed on keyboard, the symbol of that key is stored in key (otherwise it will wait for the defined time)
+    key = cv2.waitKey(10)
 
     # if a certain key is hit (here:q) --> break loop
     if key == ord('q'): #The ord() function returns an integer representing the Unicode character.

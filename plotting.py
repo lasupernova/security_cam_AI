@@ -1,5 +1,6 @@
 # import motion data df
 from motion import df
+import os
 
 # import library
 from bokeh.plotting import figure, show, output_file
@@ -10,6 +11,9 @@ df["Start_string"] = df['Start'].dt.strftime("%Y-%m-%d %H:%M:%S")
 df["End_string"] = df['End'].dt.strftime("%Y-%m-%d %H:%M:%S")
 df['Duration_string'] = df['Duration']
 df['Image'] = df['Image']
+
+# replace None with default image 
+df['Image'].mask(df['Image'] == None, f'media{os.sep}test.jpg', inplace=True)
 
 # initiate ColumnDataSource object to easily pass data from source (here: df) to bokeh
 cds = ColumnDataSource(df)
