@@ -1,4 +1,5 @@
-## To DO: figure out how to get a not blurry image !!!!
+## To DO: figure out how to get a not blurry image !!!! 
+# re-use parts of the code from create_database ?
 
 # import libraries
 import cv2, time
